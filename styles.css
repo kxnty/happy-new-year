@@ -1,0 +1,241 @@
+:root {
+    /* --- Theme Colors --- */
+    --bg-color: #ffffff;
+    --text-color: #1a1a1a;
+    --accent-color: #2d2d2d;
+    --input-bg: #f4f4f4;
+    
+    /* --- Dimensions --- */
+    --border-radius: 20px;
+    --content-width: 300px;
+    --card-height: 450px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.container {
+    width: 100%;
+    max-width: 500px; 
+    padding: 0 25px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+/* --- Section Layout --- */
+section {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+section.active {
+    display: flex;
+    animation: fadeIn 0.5s ease;
+}
+
+.hidden { display: none !important; }
+
+/* --- Equal Width Elements --- */
+.input-group, 
+.card-container, 
+.stack-wrapper,
+#gallery-section button,    
+#login-section button,      
+#postcard-section button {
+    width: 100%;
+    max-width: var(--content-width);
+    box-sizing: border-box;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* --- Typography --- */
+h1 { font-weight: 600; margin-bottom: 15px; font-size: 1.8rem; color: #000; text-align: center; }
+h2 { font-weight: 600; margin-bottom: 10px; font-size: 1.5rem; color: #000; text-align: center; }
+p { font-weight: 300; color: #555; font-size: 0.9rem; margin-bottom: 25px; line-height: 1.6; text-align: center; }
+
+/* --- Inputs --- */
+.input-group {
+    display: flex;
+    align-items: center;
+    background: var(--input-bg);
+    border-radius: 30px;
+    padding: 12px 20px;
+    margin-bottom: 15px;
+    border: 1px solid #e0e0e0;
+}
+.prefix { font-weight: 600; margin-right: 10px; color: #777; }
+input {
+    border: none;
+    background: transparent;
+    font-family: 'Poppins', sans-serif;
+    width: 100%;
+    outline: none;
+    font-size: 1rem;
+    color: var(--text-color);
+}
+
+/* --- Buttons --- */
+button {
+    font-family: 'Poppins', sans-serif;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.2s ease;
+    padding: 14px 0;
+    border-radius: 30px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    display: block;
+}
+.btn-primary { background: var(--accent-color); color: #ffffff; }
+.btn-primary:hover { background-color: #000; transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+.btn-secondary { background: transparent; border: 2px solid var(--accent-color); color: var(--accent-color); }
+.btn-secondary:hover { background: #f4f4f4; }
+.btn-link {
+    background: transparent; text-decoration: underline; color: #777;
+    font-size: 0.9rem; width: auto !important; max-width: none !important;
+    display: inline-block; margin-top: 5px; padding: 10px;
+}
+
+/* --- Swipe Indicator (Used in Intro & Pre-Postcard) --- */
+.swipe-indicator {
+    margin-top: 20px;
+    cursor: pointer;
+    animation: bounce 2s infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.swipe-indicator p { margin-bottom: 5px; font-size: 0.85rem; font-weight: 500; color: #999; }
+.arrow-up {
+    width: 12px; height: 12px;
+    border-top: 2px solid var(--text-color);
+    border-left: 2px solid var(--text-color);
+    transform: rotate(45deg);
+}
+
+/* --- Gallery Section --- */
+#gallery-section { background: transparent; color: var(--text-color); }
+
+.stack-wrapper {
+    position: relative;
+    height: var(--card-height);
+    margin-bottom: 30px;
+    margin-top: 50px; /* <--- เพิ่มบรรทัดนี้ครับ (ดันการ์ดลงมา ให้ข้อความอยู่ข้างบน) */
+}
+
+/* การ์ดในกอง */
+.stack-card {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-color: #eee;
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    border: 0.5px solid #000;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease, opacity 0.3s;
+    cursor: grab;
+    display: flex; justify-content: center; align-items: center;
+}
+.stack-card:active { cursor: grabbing; }
+.stack-card:nth-child(n) { transform: rotate(-2deg); }
+.stack-card:nth-child(2n) { transform: rotate(1deg); }
+.stack-card:nth-child(3n) { transform: rotate(3deg); z-index: 1;}
+
+.swipe-hint {
+    position: absolute;
+    
+    /* เปลี่ยนจาก bottom เป็น top */
+    top: -40px;       /* <--- ดันข้อความขึ้นไปอยู่เหนือการ์ด */
+    bottom: auto;     /* ยกเลิกค่า bottom เดิม */
+    
+    left: 0; 
+    width: 100%;
+    text-align: center;
+    color: #bbb;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    pointer-events: none;
+    animation: pulse 2s infinite;
+    z-index: 100;
+}
+
+/* แก้ไข: เพิ่มการเตรียม Animation สไลด์ขึ้น */
+.end-content {
+    display: none; /* ซ่อนไว้ก่อน */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%; max-width: var(--content-width);
+
+    /* สถานะเริ่มต้นของ Animation: จางและอยู่ต่ำกว่าปกติ */
+    opacity: 0;
+    transform: translateY(50px); /* เลื่อนลงไปข้างล่าง 50px */
+    
+    /* ตั้งค่า Transition ให้ครอบคลุมทั้งความทึบและการเคลื่อนที่ */
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+/* แก้ไข: สถานะตอนแสดงผล */
+.end-content.show {
+    /* display: flex;  <-- ลบบรรทัดนี้ออก เราจะใช้ JS จัดการแทน */
+    opacity: 1;
+    transform: translateY(0); /* เลื่อนกลับมาที่ตำแหน่งเดิม */
+}
+/* --- Postcard Section --- */
+.card-container {
+    height: var(--card-height);
+    margin-bottom: 25px;
+    perspective: 1000px;
+    cursor: pointer;
+}
+.card {
+    position: relative; width: 100%; height: 100%;
+    transition: transform 0.6s; transform-style: preserve-3d;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15); border-radius: 16px;
+}
+.card.flipped { transform: rotateY(180deg); }
+.card-face {
+    position: absolute; width: 100%; height: 100%;
+    backface-visibility: hidden; border-radius: 16px;
+    overflow: hidden; background: #fff;
+}
+.card-face img { width: 100%; height: 100%; object-fit: cover; }
+.card-face.back { transform: rotateY(180deg); }
+.action-buttons { width: 100%; display: flex; flex-direction: column; align-items: center; }
+
+/* --- Contact Form --- */
+#contact-section .btn-primary { width: 100%; max-width: 100%; }
+#contact-form { width: 100%; }
+textarea {
+    width: 100%; height: 180px; padding: 20px;
+    border-radius: 20px; border: 1px solid #ddd;
+    margin-bottom: 15px; font-family: 'Poppins', sans-serif;
+    resize: none; background: var(--input-bg);
+    color: var(--text-color); font-size: 1rem; box-sizing: border-box;
+}
+
+/* --- Animations --- */
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bounce { 0%, 20%, 50%, 80%, 100% {transform: translateY(0);} 40% {transform: translateY(-8px);} 60% {transform: translateY(-4px);} }
+@keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
